@@ -9,6 +9,9 @@ class Editeur implements Data {
   Editeur(this._id, this._nom, this._adresse);
   Editeur.vide();
   //Getter & Setter
+  String GetNom() {
+    return this._nom;
+  }
 
   //Autres méthodes
   bool estNull() {

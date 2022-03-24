@@ -98,7 +98,7 @@ class DBEditeur {
   }
 
   //delete
-  static Future<void> deleteEtudiant(int id) async {
+  static Future<void> deleteEditeur(int id) async {
     try {
       MySqlConnection conn =
           await MySqlConnection.connect(DBConfig.getSettings());
@@ -131,7 +131,7 @@ class DBEditeur {
     }
   }
 
-  // verifie l'existance d'un etudiant selon son ID
+  // verifie l'existance d'un editeur selon son ID
   static Future<bool> exist(int id) async {
     bool exist = false;
     if (!(await DBEditeur.selectEditeur(id)).estNull()) {
@@ -140,7 +140,7 @@ class DBEditeur {
     return exist;
   }
 
-  // getEtudiant
+  // getEditeur
   static Future<Editeur> getEditeur(int id) async {
     dynamic r = await selectEditeur(id);
     ResultRow rr = r.first;
