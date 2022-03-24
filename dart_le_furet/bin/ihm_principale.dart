@@ -121,7 +121,7 @@ class IHMprincipale {
       print("1- Gestion de la BDD");
       print("2- Gestion de la table Article");
       print("3- Gestion de la table Editeur");
-      print("3- Gestion de la table Auteur");
+      print("4- Gestion de la table Auteur");
       print("0- Quitter");
       choix = IHMprincipale.choixMenu(3);
       print("--------------------------------------------------");
@@ -131,6 +131,8 @@ class IHMprincipale {
         await IHMArticle.menu();
       } else if (choix == 3) {
         await IHMAuteur.menu();
+      } else if (choix == 4) {
+        await IHMEditeur.menu();
       }
     }
     return 0;
