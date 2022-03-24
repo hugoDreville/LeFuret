@@ -5,16 +5,21 @@ import 'ihm_article.dart';
 import 'ihm_auteur.dart';
 import 'ihm_editeur.dart';
 
-class IHMPrincipale {
+class IHMprincipale {
   static void titre() {
     print("");
     print("Bienvenue dans :");
-    print("LE gestionnaire du Furet du Nord");
+    print("Le gestionnaire du Furet du Nord");
     print("--------------------------------------------------");
   }
 
   static void quitter() {
     print("Au revoir !");
+  }
+
+  static void afficherUneDonnee(Data data) {
+    print(data.getEnTete());
+    print(data.getInLine());
   }
 
   // methodes de saisie
@@ -105,5 +110,126 @@ class IHMPrincipale {
       }
     }
     return i;
+  }
+
+  // methode des menus et actions
+  // menu d'accueil
+  static Future<int> menu() async {
+    int choix = -1;
+    while (choix != 0) {
+      print("Menu Principal");
+      print("1- Gestion de la BDD");
+      print("2- Gestion de la table Article");
+      print("3- Gestion de la table Editeur");
+      print("3- Gestion de la table Auteur");
+      print("0- Quitter");
+      choix = IHMprincipale.choixMenu(3);
+      print("--------------------------------------------------");
+      if (choix == 1) {
+        await IHMprincipale.menuBDD();
+      } else if (choix == 2) {
+        await IHMArticle.menu();
+      } else if (choix == 3) {
+        await IHMAuteur.menu();
+      }
+    }
+    return 0;
+  }
+
+  // menu pour la gestion basic de la BDD
+  static Future<void> menuBDD() async {
+    int choix = -1;
+    while (choix != 0) {
+      print("Menu - Gestion BDD");
+      print("1- Création des tables de la BDD");
+      print("2- Verification des tables de la BDD");
+      print("3- Afficher les tables de la BDD");
+      print("4- Supprimer une table dans la BDD");
+      print("5- Supprimer toutes les tables dans la BDD");
+      print("0- Quitter");
+      choix = IHMprincipale.choixMenu(5);
+      print("--------------------------------------------------");
+
+      if (choix == 1) {
+        await IHMprincipale.createTable();
+      } else if (choix == 2) {
+        await IHMprincipale.checkTable();
+      } else if (choix == 3) {
+        await IHMprincipale.selectTable();
+      } else if (choix == 4) {
+        await IHMprincipale.deleteTable();
+      } else if (choix == 5) {
+        await IHMprincipale.deleteAllTables();
+      }
+    }
+    print("Retour menu précédent.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  // action pour creer les tables
+  static Future<void> createTable() async {
+    print("Création des tables manquantes dans la BDD ...");
+    await DBConfig.createTables();
+    print("Fin de l'opération.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  // action pour vérifier les tables
+  static Future<void> checkTable() async {
+    print("Verification des tables dans la BDD ...");
+    if (await DBConfig.checkTables()) {
+      print("Toutes les tables sont présentes dans la BDD.");
+    } else {
+      print("Il manque des tables dans la BDD.");
+    }
+    print("Fin de l'opération.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  // action pour afficher les tables
+  static Future<void> selectTable() async {
+    List<String> listTable = await DBConfig.selectTables();
+    print("Liste des tables :");
+    for (var table in listTable) {
+      print("- $table");
+    }
+    print("Fin de l'opération.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+// action pour supprimer une table
+  static Future<void> deleteTable() async {
+    print("Quelle table voulez vous supprimer ?");
+    String table = IHMprincipale.saisieString();
+    if (IHMprincipale.confirmation()) {
+      DBConfig.dropTable(table);
+      print("Table supprimée.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    } else {
+      print("Annulation de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
+// action pour supprimer les tables
+  static Future<void> deleteAllTables() async {
+    if (IHMprincipale.confirmation()) {
+      DBConfig.dropAllTable();
+      print("Tables supprimées.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    } else {
+      print("Annulation de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    }
   }
 }
