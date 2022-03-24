@@ -10,13 +10,7 @@ class Auteur implements Data {
 
   Auteur(this._id, this._nom, this._prenom);
   Auteur.sansID(this._nom, this._prenom);
-  Auteur.fromListString(List<String> unAut) {
-    if (unAut.length == 3) {
-      this._id = int.parse(unAut[0]);
-      this._nom = unAut[1];
-      this._prenom = unAut[2];
-    }
-  }
+
   Auteur.vide();
 
   //getter
