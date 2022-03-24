@@ -22,6 +22,13 @@ class IHMprincipale {
     print(data.getInLine());
   }
 
+  static void afficherDesDonnees(List<Data> dataList) {
+    print(dataList.first.getEnTete());
+    for (var Fields in dataList) {
+      print(Fields.getInLine());
+    }
+  }
+
   // methodes de saisie
   // retourne un chiffre entre 0 et nbChoix pour les menus
   static int choixMenu(int nbChoix) {

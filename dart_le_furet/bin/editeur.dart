@@ -11,15 +11,21 @@ class Editeur implements Data {
   //Getter & Setter
 
   //Autres méthodes
+  bool estNull() {
+    bool estnull = false;
+    if (_id == 0 && _nom == "" && _adresse == "") {
+      estnull = true;
+    }
+    return estnull;
+  }
+
   @override
   String getEnTete() {
-    // TODO: implement getEnTete
-    throw UnimplementedError();
+    return "| id | nom | adresse |";
   }
 
   @override
   String getInLine() {
-    // TODO: implement getInLine
-    throw UnimplementedError();
+    return "| " + _id.toString() + " | " + _nom + " | " + _adresse + " |";
   }
 }
