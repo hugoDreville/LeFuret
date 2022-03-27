@@ -27,6 +27,15 @@ class Auteur implements Data {
     return this._prenom;
   }
 
+//Autres méthodes
+  bool estNull() {
+    bool estnull = false;
+    if (_id == 0 && _nom == "" && _prenom == "") {
+      estnull = true;
+    }
+    return estnull;
+  }
+
   @override
   String getEnTete() {
     return "| id | name | prenom |";

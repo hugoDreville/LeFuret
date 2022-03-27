@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'data.dart';
 import 'db_config.dart';
@@ -92,6 +93,21 @@ class IHMprincipale {
       print("> Veuillez saisir un entier :");
       try {
         i = int.parse(stdin.readLineSync().toString());
+        saisieValide = true;
+      } catch (e) {
+        print("Erreur dans la saisie.");
+      }
+    }
+    return i;
+  }
+
+  static double saisieDouble() {
+    bool saisieValide = false;
+    double i = -1;
+    while (!saisieValide) {
+      print("> Veuillez saisir un entier :");
+      try {
+        i = double.parse(stdin.readLineSync().toString());
         saisieValide = true;
       } catch (e) {
         print("Erreur dans la saisie.");
