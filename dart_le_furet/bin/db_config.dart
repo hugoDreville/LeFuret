@@ -7,19 +7,13 @@ class DBConfig {
   static ConnectionSettings settings = ConnectionSettings(
     host: 'localhost',
     port: 3306,
-    user: 'Furetser',
+    user: 'Furetuser',
     password: 'furetmdp',
     db: "FuretDB",
   );
 
   static ConnectionSettings getSettings() {
     return settings;
-  }
-
-  static void afficher() {
-    print(settings.user);
-    print(settings.password);
-    print(settings.db);
   }
 
   // permet la création des tables, en vérifiant si elles existes ou non
