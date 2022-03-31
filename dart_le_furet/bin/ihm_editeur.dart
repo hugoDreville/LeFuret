@@ -6,12 +6,12 @@ class IHMEditeur {
   static Future<void> menu() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Gestion Editeurd");
+      print("Menu - Gestion Editeur");
       print("1- Afficher des données de la table");
       print("2- Inserer une données dans la table");
       print("3- Modifier une données dans la table");
-      print("4- Supprimer une données dans la tables");
-      print("5- Supprimer toutes les données dans la tables");
+      print("4- Supprimer une données dans la table");
+      print("5- Supprimer toutes les données dans la table");
       print("0- Quitter");
       choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
@@ -60,7 +60,7 @@ class IHMEditeur {
     String adresse = IHMprincipale.saisieString();
     if (IHMprincipale.confirmation()) {
       await DBEditeur.insertEditeur(nom, adresse);
-      print("Editeur iant inséré dans la table.");
+      print("Editeur inséré dans la table.");
       print("--------------------------------------------------");
     } else {
       print("Annulation de l'opération.");
@@ -73,7 +73,7 @@ class IHMEditeur {
 
   // action pour mettre a jour un Editeur selon ID
   static Future<void> updateEditeur() async {
-    print("Quelle Editeuriant voulez vous mettre à jour ?");
+    print("Quel Editeur voulez-vous mettre à jour ?");
     int id = IHMprincipale.saisieID();
     if (await DBEditeur.exist(id)) {
       String nom = IHMprincipale.saisieString();
@@ -97,7 +97,7 @@ class IHMEditeur {
 
   // action pour afficher un Editeur selon ID
   static Future<void> selectEditeur() async {
-    print("Quelle Editeur voulez vous afficher ?");
+    print("Quel Editeur voulez vous afficher ?");
     int id = IHMprincipale.saisieID();
     Editeur edi = await DBEditeur.selectEditeur(id);
     if (!edi.estNull()) {
@@ -129,7 +129,7 @@ class IHMEditeur {
 
 // action pour supprimer un Editeur selon ID
   static Future<void> deleteEditeur() async {
-    print("Quelle Editeur voulez vous supprimer ?");
+    print("Quel Editeur voulez vous supprimer ?");
     int id = IHMprincipale.saisieID();
     if (IHMprincipale.confirmation()) {
       DBEditeur.deleteEditeur(id);
