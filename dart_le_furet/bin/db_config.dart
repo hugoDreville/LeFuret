@@ -16,6 +16,12 @@ class DBConfig {
     return settings;
   }
 
+  static void afficher() {
+    print(settings.user);
+    print(settings.password);
+    print(settings.db);
+  }
+
   // permet la création des tables, en vérifiant si elles existes ou non
   // et créé les tables manquantes si besoin
   static Future<void> createTables() async {
