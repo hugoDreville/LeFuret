@@ -2,6 +2,7 @@ import 'ihm_principale.dart';
 import 'db_config.dart';
 
 class IHMDB {
+  //permet à l'utilisateur de configurer la base de donnéé avec ces propre informations
   static void initBD() {
     print("saisissez le nom de votre database");
     String d = IHMprincipale.saisieString();

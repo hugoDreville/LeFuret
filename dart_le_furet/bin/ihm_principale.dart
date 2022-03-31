@@ -146,7 +146,7 @@ class IHMprincipale {
       print("3- Gestion de la table Editeur");
       print("4- Gestion de la table Auteur");
       print("0- Quitter");
-      choix = IHMprincipale.choixMenu(3);
+      choix = IHMprincipale.choixMenu(4);
       print("--------------------------------------------------");
       if (choix == 1) {
         await IHMprincipale.menuBDD();

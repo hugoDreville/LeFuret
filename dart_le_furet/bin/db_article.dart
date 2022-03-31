@@ -1,9 +1,7 @@
 import 'dart:developer';
 import 'package:mysql1/mysql1.dart';
-
 import 'db_config.dart';
 import 'article.dart';
-import 'editeur.dart';
 
 class DBArticle {
   static Future<Article> selectArticle(int id) async {
