@@ -56,16 +56,16 @@ class IHMArticle {
 
   // action pour ajouter un Article
   static Future<void> insertArticle() async {
-    int idEditeur = IHMprincipale.saisieID();
-    int idAuteur = IHMprincipale.saisieID();
     String titre = IHMprincipale.saisieString();
     String type = IHMprincipale.saisieString();
     int quantite = IHMprincipale.saisieInt();
-    double prix = IHMprincipale.saisieDouble();
+    int prix = IHMprincipale.saisieInt();
     String anneeParution = IHMprincipale.saisieString();
+    int idEditeur = IHMprincipale.saisieID();
+    int idAuteur = IHMprincipale.saisieID();
     if (IHMprincipale.confirmation()) {
       await DBArticle.insertArticle(
-          idEditeur, idAuteur, titre, type, quantite, prix, anneeParution);
+          titre, type, quantite, prix, anneeParution, idEditeur, idAuteur);
       print("Article inséré dans la table.");
       print("--------------------------------------------------");
     } else {
@@ -82,16 +82,16 @@ class IHMArticle {
     print("Quelle Article voulez vous mettre à jour ?");
     int id = IHMprincipale.saisieID();
     if (await DBArticle.exist(id)) {
-      int idEditeur = IHMprincipale.saisieID();
-      int idAuteur = IHMprincipale.saisieID();
       String titre = IHMprincipale.saisieString();
       String type = IHMprincipale.saisieString();
       int quantite = IHMprincipale.saisieInt();
       double prix = IHMprincipale.saisieDouble();
       String anneeParution = IHMprincipale.saisieString();
+      int idEditeur = IHMprincipale.saisieID();
+      int idAuteur = IHMprincipale.saisieID();
       if (IHMprincipale.confirmation()) {
-        await DBArticle.updateArticle(id, idEditeur, idAuteur, titre, type,
-            quantite, prix, anneeParution);
+        await DBArticle.updateArticle(id, titre, type, quantite, prix,
+            anneeParution, idEditeur, idAuteur);
         print("Article $id mis à jour.");
         print("--------------------------------------------------");
       } else {

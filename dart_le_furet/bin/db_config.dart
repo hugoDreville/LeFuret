@@ -44,7 +44,7 @@ class DBConfig {
         }
         if (!checkArticle) {
           requete =
-              'CREATE TABLE Article (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, titre varchar(255), type varchar(20), quantite int, prix float, annneeParution varchar(4), idAuteur int, id);';
+              'CREATE TABLE Article (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, titre varchar(250), type varchar(20), quantite int, prix int, anneeParution varchar(4), idEditeur int, idAuteur int);';
           await conn.query(requete);
         }
         if (!checkAuteur) {

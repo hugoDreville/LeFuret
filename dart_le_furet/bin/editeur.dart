@@ -1,3 +1,5 @@
+import 'package:test/test.dart';
+
 import 'data.dart';
 
 class Editeur implements Data {
@@ -10,6 +12,10 @@ class Editeur implements Data {
   Editeur.vide();
   //Getter & Setter
   String GetNom() {
+    return this._nom;
+  }
+
+  String getNom() {
     return this._nom;
   }
 

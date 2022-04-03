@@ -18,13 +18,13 @@ class DBArticle {
         Results reponse = await conn.query(requete);
         art = Article(
             reponse.first['id'],
-            reponse.first['editeur'],
-            reponse.first['auteur'],
             reponse.first['titre'],
             reponse.first['type'],
             reponse.first['quantite'],
             reponse.first['prix'],
-            reponse.first['anneeParution']);
+            reponse.first['anneeParution'],
+            reponse.first['idEditeur'],
+            reponse.first['idAuteur']);
       } catch (e) {
         log(e.toString());
       }
@@ -46,13 +46,13 @@ class DBArticle {
         for (var row in reponse) {
           Article art = Article(
               row['id'],
-              row["editeur"],
-              row["auteur"],
               row['titre'],
               row['type'],
               row['quantite'],
               row['prix'],
-              row['anneeParution']);
+              row['anneeParution'],
+              row["idEditeur"],
+              row["idAuteur"]);
           listeArt.add(art);
         }
       } catch (e) {
@@ -65,18 +65,14 @@ class DBArticle {
     return listeArt;
   }
 
-  static Future<void> insertArticle(int idEditeur, int idAuteur, String titre,
-      String type, int quantite, double prix, String anneeParution) async {
+  static Future<void> insertArticle(String titre, String type, int quantite,
+      int prix, String anneeParution, int idEditeur, int idAuteur) async {
     try {
       MySqlConnection conn =
           await MySqlConnection.connect(DBConfig.getSettings());
       try {
         String requete =
-            "INSERT INTO Article (editeur, auteur, titre, type, quantite, prix, anneeParution) VALUES('" +
-                idEditeur.toString() +
-                "', '" +
-                idAuteur.toString() +
-                "', '" +
+            "INSERT INTO Article (titre, type, quantite, prix, anneeParution, idEditeur, idAuteur) VALUES('" +
                 titre +
                 "', '" +
                 type +
@@ -86,6 +82,10 @@ class DBArticle {
                 prix.toString() +
                 "', '" +
                 anneeParution +
+                "', '" +
+                idEditeur.toString() +
+                "', '" +
+                idAuteur.toString() +
                 "');";
         await conn.query(requete);
       } catch (e) {
@@ -101,22 +101,18 @@ class DBArticle {
 
   static Future<void> updateArticle(
       int id,
-      int idEditeur,
-      int idAuteur,
       String titre,
       String type,
       int quantite,
       double prix,
-      String anneeParution) async {
+      String anneeParution,
+      int idEditeur,
+      int idAuteur) async {
     try {
       MySqlConnection conn =
           await MySqlConnection.connect(DBConfig.getSettings());
       try {
         String requete = "UPDATE Article SET titre = '" +
-            idEditeur.toString() +
-            ", editeur = '" +
-            idAuteur.toString() +
-            ", auteur = '" +
             titre +
             ", type = '" +
             type +
@@ -126,7 +122,11 @@ class DBArticle {
             prix.toString() +
             ",  anneeParution = '" +
             anneeParution +
-            " ' WHERE id='" +
+            ", idEditeur = '" +
+            idEditeur.toString() +
+            ", idAuteur = '" +
+            idAuteur.toString() +
+            ", ' WHERE id='" +
             id.toString() +
             "'";
         await conn.query(requete);
@@ -188,7 +188,7 @@ class DBArticle {
   static Future<Article> getEtudiant(int id) async {
     dynamic r = await selectArticle(id);
     ResultRow rr = r.first;
-    return Article(rr['id'], rr['editeur'], rr['auteur'], rr['titre'],
-        rr['type'], rr['quantite'], rr['prix'], rr['anneeParution']);
+    return Article(rr['id'], rr['titre'], rr['type'], rr['quantite'],
+        rr['prix'], rr['anneeParution'], rr['idEditeur'], rr['idAuteur']);
   }
 }
