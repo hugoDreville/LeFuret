@@ -59,7 +59,7 @@ class IHMArticle {
     String titre = IHMprincipale.saisieString();
     String type = IHMprincipale.saisieString();
     int quantite = IHMprincipale.saisieInt();
-    int prix = IHMprincipale.saisieInt();
+    double prix = IHMprincipale.saisieDouble();
     String anneeParution = IHMprincipale.saisieString();
     int idEditeur = IHMprincipale.saisieID();
     int idAuteur = IHMprincipale.saisieID();

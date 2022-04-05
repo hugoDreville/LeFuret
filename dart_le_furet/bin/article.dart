@@ -92,6 +92,7 @@ class Article implements Data {
         " |" +
         _idEditeur.toString() +
         "| " +
-        _idAuteur.toString();
+        _idAuteur.toString() +
+        " |";
   }
 }

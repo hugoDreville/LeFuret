@@ -66,7 +66,7 @@ class DBArticle {
   }
 
   static Future<void> insertArticle(String titre, String type, int quantite,
-      int prix, String anneeParution, int idEditeur, int idAuteur) async {
+      double prix, String anneeParution, int idEditeur, int idAuteur) async {
     try {
       MySqlConnection conn =
           await MySqlConnection.connect(DBConfig.getSettings());
