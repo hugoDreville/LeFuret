@@ -89,9 +89,9 @@ class Article implements Data {
         _prix.toString() +
         " | " +
         _anneeParution +
-        " |" +
+        " | " +
         _idEditeur.toString() +
-        "| " +
+        " | " +
         _idAuteur.toString() +
         " |";
   }

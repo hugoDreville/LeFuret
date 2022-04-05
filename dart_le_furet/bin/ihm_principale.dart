@@ -9,9 +9,11 @@ import 'ihm_editeur.dart';
 class IHMprincipale {
   static void titre() {
     print("");
-    print("Bienvenue dans :");
-    print("Le gestionnaire du Furet du Nord");
-    print("--------------------------------------------------");
+    print("+----------------------------------------+");
+    print("|             Bienvenue dans :           |");
+    print("|    Le gestionnaire du Furet du Nord    |");
+    print("+----------------------------------------+");
+    print("");
   }
 
   static void quitter() {
@@ -71,11 +73,11 @@ class IHMprincipale {
     return confirme;
   }
 
-  static String saisieString() {
+  static String saisieString(String sujet) {
     bool saisieValide = false;
     String s = "";
     while (!saisieValide) {
-      print("> Veuillez saisir une chaine de caractère :");
+      print("> Veuillez saisir $sujet :");
       try {
         s = stdin.readLineSync().toString();
         saisieValide = true;
@@ -86,11 +88,11 @@ class IHMprincipale {
     return s;
   }
 
-  static int saisieInt() {
+  static int saisieInt(String sujet) {
     bool saisieValide = false;
     int i = -1;
     while (!saisieValide) {
-      print("> Veuillez saisir un entier :");
+      print("> Veuillez saisir $sujet :");
       try {
         i = int.parse(stdin.readLineSync().toString());
         saisieValide = true;
@@ -101,11 +103,28 @@ class IHMprincipale {
     return i;
   }
 
+  static String saisieMDP() {
+    bool saisieValide = false;
+    String s = "";
+    while (!saisieValide) {
+      print("> Veuillez saisir le mot de passe :");
+      try {
+        stdin.echoMode = false;
+        s = stdin.readLineSync().toString();
+        saisieValide = true;
+        stdin.echoMode = true;
+      } catch (e) {
+        print("Erreur dans la saisie.");
+      }
+    }
+    return s;
+  }
+
   static double saisieDouble() {
     bool saisieValide = false;
     double i = -1;
     while (!saisieValide) {
-      print("> Veuillez saisir un entier :");
+      print("> Veuillez saisir le prix :");
       try {
         i = double.parse(stdin.readLineSync().toString());
         saisieValide = true;
@@ -116,11 +135,11 @@ class IHMprincipale {
     return i;
   }
 
-  static int saisieID() {
+  static int saisieID(String sujet) {
     bool saisieValide = false;
     int i = -1;
     while (!saisieValide) {
-      print("> Veuillez saisir l'id correspondant:");
+      print("> Veuillez saisir l'id $sujet correspondant:");
       try {
         i = int.parse(stdin.readLineSync().toString());
         if (i > 0) {
@@ -140,12 +159,14 @@ class IHMprincipale {
   static Future<int> menu() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu Principal");
-      print("1- Gestion de la BDD");
-      print("2- Gestion de la table Article");
-      print("3- Gestion de la table Editeur");
-      print("4- Gestion de la table Auteur");
-      print("0- Quitter");
+      print("+-----------------------------------+");
+      print("|           Menu Principal          |");
+      print("|  1- Gestion de la BDD             |");
+      print("|  2- Gestion de la table Article   |");
+      print("|  3- Gestion de la table Editeur   |");
+      print("|  4- Gestion de la table Auteur    |");
+      print("|  0- Quitter                       |");
+      print("+-----------------------------------+");
       choix = IHMprincipale.choixMenu(4);
       print("--------------------------------------------------");
       if (choix == 1) {
@@ -165,13 +186,15 @@ class IHMprincipale {
   static Future<void> menuBDD() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Gestion BDD");
-      print("1- Création des tables de la BDD");
-      print("2- Verification des tables de la BDD");
-      print("3- Afficher les tables de la BDD");
-      print("4- Supprimer une table dans la BDD");
-      print("5- Supprimer toutes les tables dans la BDD");
-      print("0- Quitter");
+      print("+----------------------------------------------+");
+      print("|             Menu - Gestion BDD               |");
+      print("|  1- Création des tables de la BDD            |");
+      print("|  2- Verification des tables de la BDD        |");
+      print("|  3- Afficher les tables de la BDD            |");
+      print("|  4- Supprimer une table dans la BDD          |");
+      print("|  5- Supprimer toutes les tables dans la BDD  |");
+      print("|  0- Quitter                                  |");
+      print("+----------------------------------------------+");
       choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
 
@@ -229,7 +252,7 @@ class IHMprincipale {
 // action pour supprimer une table
   static Future<void> deleteTable() async {
     print("Quelle table voulez vous supprimer ?");
-    String table = IHMprincipale.saisieString();
+    String table = IHMprincipale.saisieString("la table");
     if (IHMprincipale.confirmation()) {
       DBConfig.dropTable(table);
       print("Table supprimée.");

@@ -7,9 +7,9 @@ class DBConfig {
   static ConnectionSettings settings = ConnectionSettings(
     host: 'localhost',
     port: 3306,
-    user: 'Furetuser',
-    password: 'furetmdp',
-    db: "FuretDB",
+    user: '',
+    password: '',
+    db: "",
   );
 
   static ConnectionSettings getSettings() {

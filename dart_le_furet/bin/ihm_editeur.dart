@@ -6,13 +6,15 @@ class IHMEditeur {
   static Future<void> menu() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Gestion Editeur");
-      print("1- Afficher des données de la table");
-      print("2- Inserer une données dans la table");
-      print("3- Modifier une données dans la table");
-      print("4- Supprimer une données dans la table");
-      print("5- Supprimer toutes les données dans la table");
-      print("0- Quitter");
+      print("+--------------------------------------------------+");
+      print("|             Menu - Gestion Editeur               |");
+      print("|  1- Afficher des données de la table             |");
+      print("|  2- Inserer une données dans la table            |");
+      print("|  3- Modifier une données dans la table           |");
+      print("|  4- Supprimer une données dans la table          |");
+      print("|  5- Supprimer toutes les données dans la table   |");
+      print("|  0- Quitter                                      |");
+      print("+--------------------------------------------------+");
       choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
 
@@ -36,10 +38,12 @@ class IHMEditeur {
   static Future<void> menuSelectEditeur() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Select Editeur");
-      print("1- Afficher selon ID");
-      print("2- Afficher toute la table.");
-      print("0- Quitter");
+      print("+----------------------------------------+");
+      print("|           Menu - Select Editeur        |");
+      print("|  1- Afficher selon ID                  |");
+      print("|  2- Afficher toute la table            |");
+      print("|  0- Quitter                            |");
+      print("+----------------------------------------+");
       choix = IHMprincipale.choixMenu(2);
       print("--------------------------------------------------");
 
@@ -56,8 +60,8 @@ class IHMEditeur {
 
   // action pour ajouter un Editeur
   static Future<void> insertEditeur() async {
-    String nom = IHMprincipale.saisieString();
-    String adresse = IHMprincipale.saisieString();
+    String nom = IHMprincipale.saisieString("le nom");
+    String adresse = IHMprincipale.saisieString("l'adresse");
     if (IHMprincipale.confirmation()) {
       await DBEditeur.insertEditeur(nom, adresse);
       print("Editeur inséré dans la table.");
@@ -74,10 +78,10 @@ class IHMEditeur {
   // action pour mettre a jour un Editeur selon ID
   static Future<void> updateEditeur() async {
     print("Quel Editeur voulez-vous mettre à jour ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'editeur");
     if (await DBEditeur.exist(id)) {
-      String nom = IHMprincipale.saisieString();
-      String adresse = IHMprincipale.saisieString();
+      String nom = IHMprincipale.saisieString("le nom");
+      String adresse = IHMprincipale.saisieString("l'adresse");
       if (IHMprincipale.confirmation()) {
         await DBEditeur.updateEditeur(id, nom, adresse);
         print("Editeur $id mis à jour.");
@@ -98,7 +102,7 @@ class IHMEditeur {
   // action pour afficher un Editeur selon ID
   static Future<void> selectEditeur() async {
     print("Quel Editeur voulez vous afficher ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'editeur");
     Editeur edi = await DBEditeur.selectEditeur(id);
     if (!edi.estNull()) {
       IHMprincipale.afficherUneDonnee(edi);
@@ -130,7 +134,7 @@ class IHMEditeur {
 // action pour supprimer un Editeur selon ID
   static Future<void> deleteEditeur() async {
     print("Quel Editeur voulez vous supprimer ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'editeur");
     if (IHMprincipale.confirmation()) {
       DBEditeur.deleteEditeur(id);
       print("Editeur $id supprimé.");

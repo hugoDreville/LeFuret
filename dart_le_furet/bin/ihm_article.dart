@@ -6,13 +6,15 @@ class IHMArticle {
   static Future<void> menu() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Gestion Article");
-      print("1- Afficher des données de la table");
-      print("2- Inserer une données dans la table");
-      print("3- Modifier une données dans la table");
-      print("4- Supprimer une données dans la tables");
-      print("5- Supprimer toutes les données dans la tables");
-      print("0- Quitter");
+      print("+--------------------------------------------------+");
+      print("|           Menu - Gestion Article                 |");
+      print("|  1- Afficher des données de la table             |");
+      print("|  2- Inserer une données dans la table            |");
+      print("|  3- Modifier une données dans la table           |");
+      print("|  4- Supprimer une données dans la tables         |");
+      print("|  5- Supprimer toutes les données dans la tables  |");
+      print("|  0- Quitter                                      |");
+      print("+--------------------------------------------------+");
       choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
 
@@ -36,10 +38,12 @@ class IHMArticle {
   static Future<void> menuSelectArticle() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Select Article");
-      print("1- Afficher selon ID");
-      print("2- Afficher toute la table.");
-      print("0- Quitter");
+      print("+-----------------------------------------+");
+      print("|           Menu - Select Article         |");
+      print("|  1- Afficher selon ID                   |");
+      print("|  2- Afficher toute la table             |");
+      print("|  0- Quitter                             |");
+      print("+-----------------------------------------+");
       choix = IHMprincipale.choixMenu(2);
       print("--------------------------------------------------");
 
@@ -56,13 +60,13 @@ class IHMArticle {
 
   // action pour ajouter un Article
   static Future<void> insertArticle() async {
-    String titre = IHMprincipale.saisieString();
-    String type = IHMprincipale.saisieString();
-    int quantite = IHMprincipale.saisieInt();
+    String titre = IHMprincipale.saisieString("le titre");
+    String type = IHMprincipale.saisieString("le type");
+    int quantite = IHMprincipale.saisieInt("la quantité");
     double prix = IHMprincipale.saisieDouble();
-    String anneeParution = IHMprincipale.saisieString();
-    int idEditeur = IHMprincipale.saisieID();
-    int idAuteur = IHMprincipale.saisieID();
+    String anneeParution = IHMprincipale.saisieString("l'année de parution");
+    int idEditeur = IHMprincipale.saisieID("de l'editeur");
+    int idAuteur = IHMprincipale.saisieID("de l'auteur");
     if (IHMprincipale.confirmation()) {
       await DBArticle.insertArticle(
           titre, type, quantite, prix, anneeParution, idEditeur, idAuteur);
@@ -80,15 +84,15 @@ class IHMArticle {
   // action pour mettre a jour un Article selon ID
   static Future<void> updateArticle() async {
     print("Quelle Article voulez vous mettre à jour ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'article");
     if (await DBArticle.exist(id)) {
-      String titre = IHMprincipale.saisieString();
-      String type = IHMprincipale.saisieString();
-      int quantite = IHMprincipale.saisieInt();
+      String titre = IHMprincipale.saisieString("le titre");
+      String type = IHMprincipale.saisieString("le type");
+      int quantite = IHMprincipale.saisieInt("la quantité");
       double prix = IHMprincipale.saisieDouble();
-      String anneeParution = IHMprincipale.saisieString();
-      int idEditeur = IHMprincipale.saisieID();
-      int idAuteur = IHMprincipale.saisieID();
+      String anneeParution = IHMprincipale.saisieString("l'année de parution");
+      int idEditeur = IHMprincipale.saisieID("de l'editeur");
+      int idAuteur = IHMprincipale.saisieID("de l'auteur");
       if (IHMprincipale.confirmation()) {
         await DBArticle.updateArticle(id, titre, type, quantite, prix,
             anneeParution, idEditeur, idAuteur);
@@ -110,7 +114,7 @@ class IHMArticle {
   // action pour afficher un Article selon ID
   static Future<void> selectArticle() async {
     print("Quelle Article voulez vous afficher ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'article");
     Article art = await DBArticle.selectArticle(id);
     if (!art.estNull()) {
       IHMprincipale.afficherUneDonnee(art);
@@ -142,7 +146,7 @@ class IHMArticle {
 // action pour supprimer un Article selon ID
   static Future<void> deleteArticle() async {
     print("Quelle Article voulez vous supprimer ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'article");
     if (IHMprincipale.confirmation()) {
       DBArticle.deleteArticle(id);
       print("Article $id supprimé.");

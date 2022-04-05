@@ -6,13 +6,15 @@ class IHMAuteur {
   static Future<void> menu() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Gestion Auteur");
-      print("1- Afficher des données de la table");
-      print("2- Inserer une données dans la table");
-      print("3- Modifier une données dans la table");
-      print("4- Supprimer une données dans la tables");
-      print("5- Supprimer toutes les données dans la tables");
-      print("0- Quitter");
+      print("+--------------------------------------------------+");
+      print("|             Menu - Gestion Auteur                |");
+      print("|  1- Afficher des données de la table             |");
+      print("|  2- Inserer une données dans la table            |");
+      print("|  3- Modifier une données dans la table           |");
+      print("|  4- Supprimer une données dans la tables         |");
+      print("|  5- Supprimer toutes les données dans la tables  |");
+      print("|  0- Quitter                                      |");
+      print("+--------------------------------------------------+");
       choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
 
@@ -36,10 +38,12 @@ class IHMAuteur {
   static Future<void> menuSelectAuteur() async {
     int choix = -1;
     while (choix != 0) {
-      print("Menu - Select Auteur");
-      print("1- Afficher selon ID");
-      print("2- Afficher toute la table.");
-      print("0- Quitter");
+      print("+----------------------------------------+");
+      print("|          Menu - Select Auteur          |");
+      print("|  1- Afficher selon ID                  |");
+      print("|  2- Afficher toute la table            |");
+      print("|  0- Quitter                            |");
+      print("+----------------------------------------+");
       choix = IHMprincipale.choixMenu(2);
       print("--------------------------------------------------");
 
@@ -56,8 +60,8 @@ class IHMAuteur {
 
   // action pour ajouter un Auteur
   static Future<void> insertAuteur() async {
-    String nom = IHMprincipale.saisieString();
-    String prenom = IHMprincipale.saisieString();
+    String nom = IHMprincipale.saisieString("le nom");
+    String prenom = IHMprincipale.saisieString("le prenom");
     if (IHMprincipale.confirmation()) {
       await DBAuteur.insertAuteur(nom, prenom);
       print("Auteur  inséré dans la table.");
@@ -74,10 +78,10 @@ class IHMAuteur {
   // action pour mettre a jour un Auteur selon ID
   static Future<void> updateAuteur() async {
     print("Quelle Auteur voulez vous mettre à jour ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'auteur");
     if (await DBAuteur.exist(id)) {
-      String nom = IHMprincipale.saisieString();
-      String prenom = IHMprincipale.saisieString();
+      String nom = IHMprincipale.saisieString("le nom");
+      String prenom = IHMprincipale.saisieString("le prenom");
       if (IHMprincipale.confirmation()) {
         await DBAuteur.updateAuteur(id, nom, prenom);
         print("Auteur $id mis à jour.");
@@ -98,7 +102,7 @@ class IHMAuteur {
   // action pour afficher un Auteur selon ID
   static Future<void> selectAuteur() async {
     print("Quelle Auteur voulez vous afficher ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'auteur");
     Auteur aut = await DBAuteur.selectAuteur(id);
     if (!aut.estNull()) {
       IHMprincipale.afficherUneDonnee(aut);
@@ -130,7 +134,7 @@ class IHMAuteur {
 // action pour supprimer un Auteur selon ID
   static Future<void> deleteAuteur() async {
     print("Quelle Auteur voulez vous supprimer ?");
-    int id = IHMprincipale.saisieID();
+    int id = IHMprincipale.saisieID("de l'auteur");
     if (IHMprincipale.confirmation()) {
       DBAuteur.deleteAuteur(id);
       print("Auteur $id supprimé.");

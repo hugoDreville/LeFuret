@@ -164,7 +164,7 @@ class DBArticle {
       MySqlConnection conn =
           await MySqlConnection.connect(DBConfig.getSettings());
       try {
-        String requete = "TRUNCATE TABLE Articles;";
+        String requete = "TRUNCATE TABLE Article;";
         await conn.query(requete);
       } catch (e) {
         log(e.toString());
