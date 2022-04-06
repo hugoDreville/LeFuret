@@ -43,16 +43,17 @@ class DBArticle {
       try {
         String requete = "SELECT * FROM Article;";
         Results reponse = await conn.query(requete);
-        for (var row in reponse) {
+        for (var fields in reponse) {
+          print("c'est ok");
           Article art = Article(
-              row['id'],
-              row['titre'],
-              row['type'],
-              row['quantite'],
-              row['prix'],
-              row['anneeParution'],
-              row["idEditeur"],
-              row["idAuteur"]);
+              fields['id'],
+              fields['titre'],
+              fields['type'],
+              fields['quantite'],
+              fields['prix'],
+              fields['anneeParution'],
+              fields["idEditeur"],
+              fields["idAuteur"]);
           listeArt.add(art);
         }
       } catch (e) {

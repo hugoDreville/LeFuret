@@ -7,7 +7,7 @@ class Article implements Data {
   String _titre = "";
   String _type = "";
   int _quantite = 0;
-  int _prix = 0;
+  double _prix = 0;
   String _anneeParution = "";
   int _idEditeur = 0;
   int _idAuteur = 0;
@@ -47,7 +47,7 @@ class Article implements Data {
     return this._quantite;
   }
 
-  int getPrix() {
+  double getPrix() {
     return this._prix;
   }
 

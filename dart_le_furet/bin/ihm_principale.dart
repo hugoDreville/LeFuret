@@ -174,9 +174,9 @@ class IHMprincipale {
       } else if (choix == 2) {
         await IHMArticle.menu();
       } else if (choix == 3) {
-        await IHMAuteur.menu();
-      } else if (choix == 4) {
         await IHMEditeur.menu();
+      } else if (choix == 4) {
+        await IHMAuteur.menu();
       }
     }
     return 0;
