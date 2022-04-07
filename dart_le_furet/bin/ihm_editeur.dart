@@ -1,3 +1,5 @@
+import 'article.dart';
+import 'db_article.dart';
 import 'db_editeur.dart';
 import 'editeur.dart';
 import 'ihm_principale.dart';
@@ -42,15 +44,18 @@ class IHMEditeur {
       print("|           Menu - Select Editeur        |");
       print("|  1- Afficher selon ID                  |");
       print("|  2- Afficher toute la table            |");
+      print("|  3- Afficher tout les articles         |");
       print("|  0- Quitter                            |");
       print("+----------------------------------------+");
-      choix = IHMprincipale.choixMenu(2);
+      choix = IHMprincipale.choixMenu(3);
       print("--------------------------------------------------");
 
       if (choix == 1) {
         await IHMEditeur.selectEditeur();
       } else if (choix == 2) {
         await IHMEditeur.selectAllEditeur();
+      } else if (choix == 3) {
+        await IHMEditeur.listeArticle();
       }
     }
     print("Retour menu précédent.");
@@ -121,6 +126,21 @@ class IHMEditeur {
     List<Editeur> listeEditeur = await DBEditeur.selectAllEditeurs();
     if (listeEditeur.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeEditeur);
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("la table est vide");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  static Future<void> listeArticle() async {
+    int id = IHMprincipale.saisieID("de l'editeur");
+    List<Article> listeArticle = await DBEditeur.listeArticleEditeur(id);
+    if (listeArticle.isNotEmpty) {
+      IHMprincipale.afficherDesDonnees(listeArticle);
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     } else {

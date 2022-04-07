@@ -44,7 +44,6 @@ class DBArticle {
         String requete = "SELECT * FROM Article;";
         Results reponse = await conn.query(requete);
         for (var fields in reponse) {
-          print("c'est ok");
           Article art = Article(
               fields['id'],
               fields['titre'],
