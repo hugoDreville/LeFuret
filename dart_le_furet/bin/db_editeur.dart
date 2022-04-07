@@ -82,11 +82,11 @@ class DBEditeur {
       try {
         String requete = "UPDATE Editeur SET nom = '" +
             nom +
-            ", adresse = '" +
+            "', adresse = '" +
             adressse +
-            ", ' WHERE id='" +
+            "' WHERE id='" +
             id.toString() +
-            "'";
+            "';";
         await conn.query(requete);
       } catch (e) {
         log(e.toString());

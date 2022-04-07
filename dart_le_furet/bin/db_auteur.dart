@@ -82,11 +82,11 @@ class DBAuteur {
       try {
         String requete = "UPDATE Auteur SET nom = '" +
             nom +
-            ", prenom = '" +
+            "', prenom = '" +
             prenom +
-            ", ' WHERE id='" +
+            "' WHERE id='" +
             id.toString() +
-            "'";
+            "';";
         await conn.query(requete);
       } catch (e) {
         log(e.toString());

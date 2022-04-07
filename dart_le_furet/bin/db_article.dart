@@ -115,21 +115,41 @@ class DBArticle {
       try {
         String requete = "UPDATE Article SET titre = '" +
             titre +
-            ", type = '" +
+            "', type = '" +
             type +
-            ", quantite = '" +
+            "', quantite = '" +
             quantite.toString() +
-            ", prix = '" +
+            "', prix = '" +
             prix.toString() +
-            ",  anneeParution = '" +
+            "',  anneeParution = '" +
             anneeParution +
-            ", idEditeur = '" +
+            "', idEditeur = '" +
             idEditeur.toString() +
-            ", idAuteur = '" +
+            "', idAuteur = '" +
             idAuteur.toString() +
-            ", ' WHERE id='" +
+            "'  WHERE id='" +
             id.toString() +
-            "'";
+            "';";
+        await conn.query(requete);
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static Future<void> modifierArticle(int id, int quantite) async {
+    try {
+      MySqlConnection conn =
+          await MySqlConnection.connect(DBConfig.getSettings());
+      try {
+        String requete = "UPDATE Article SET quantite = '" +
+            quantite.toString() +
+            "' WHERE id='" +
+            id.toString() +
+            "';";
         await conn.query(requete);
       } catch (e) {
         log(e.toString());

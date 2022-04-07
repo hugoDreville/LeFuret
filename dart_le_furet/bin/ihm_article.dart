@@ -10,12 +10,13 @@ class IHMArticle {
       print("|           Menu - Gestion Article                 |");
       print("|  1- Afficher des données de la table             |");
       print("|  2- Inserer une données dans la table            |");
-      print("|  3- Modifier une données dans la table           |");
-      print("|  4- Supprimer une données dans la tables         |");
-      print("|  5- Supprimer toutes les données dans la tables  |");
+      print("|  3- Modifier le stock                            |");
+      print("|  4- Modifier une données dans la table           |");
+      print("|  5- Supprimer une données dans la tables         |");
+      print("|  6- Supprimer toutes les données dans la tables  |");
       print("|  0- Quitter                                      |");
       print("+--------------------------------------------------+");
-      choix = IHMprincipale.choixMenu(5);
+      choix = IHMprincipale.choixMenu(6);
       print("--------------------------------------------------");
 
       if (choix == 1) {
@@ -23,10 +24,12 @@ class IHMArticle {
       } else if (choix == 2) {
         await IHMArticle.insertArticle();
       } else if (choix == 3) {
-        await IHMArticle.updateArticle();
+        await IHMArticle.modifierArticle();
       } else if (choix == 4) {
-        await IHMArticle.deleteArticle();
+        await IHMArticle.updateArticle();
       } else if (choix == 5) {
+        await IHMArticle.deleteArticle();
+      } else if (choix == 6) {
         await IHMArticle.deleteAllArticles();
       }
     }
@@ -96,6 +99,28 @@ class IHMArticle {
       if (IHMprincipale.confirmation()) {
         await DBArticle.updateArticle(id, titre, type, quantite, prix,
             anneeParution, idEditeur, idAuteur);
+        print("Article $id mis à jour.");
+        print("--------------------------------------------------");
+      } else {
+        print("Annulation de l'opération.");
+        print("--------------------------------------------------");
+      }
+      await Future.delayed(Duration(seconds: 1));
+    } else {
+      print("L'article $id n'existe pas.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
+  static Future<void> modifierArticle() async {
+    print("Dans quelle Article voulez vous modifier le stock ?");
+    int id = IHMprincipale.saisieID("de l'article a modifié");
+    if (await DBArticle.exist(id)) {
+      int quantite = IHMprincipale.saisieInt("la quantité");
+      if (IHMprincipale.confirmation()) {
+        await DBArticle.modifierArticle(id, quantite);
         print("Article $id mis à jour.");
         print("--------------------------------------------------");
       } else {
