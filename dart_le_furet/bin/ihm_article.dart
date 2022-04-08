@@ -1,6 +1,10 @@
 import 'package:mysql1/mysql1.dart';
 import 'article.dart';
+import 'auteur.dart';
 import 'db_article.dart';
+import 'db_auteur.dart';
+import 'db_editeur.dart';
+import 'editeur.dart';
 import 'ihm_principale.dart';
 
 class IHMArticle {
@@ -56,9 +60,11 @@ class IHMArticle {
       print("|  2- Afficher toute la table             |");
       print("|  3- Afficher par prix (croissant)       |");
       print("|  4- Afficher par quantité (croissant)   |");
+      print("|  5- Afficher des infos sur l'editeur    |");
+      print("|  6- Afficher des infos sur l'auteur     |");
       print("|  0- Quitter                             |");
       print("+-----------------------------------------+");
-      choix = IHMprincipale.choixMenu(4);
+      choix = IHMprincipale.choixMenu(6);
       print("--------------------------------------------------");
 
       if (choix == 1) {
@@ -69,6 +75,10 @@ class IHMArticle {
         await IHMArticle.selectAllArticlePrix(settings);
       } else if (choix == 4) {
         await IHMArticle.selectAllArticleQuantite(settings);
+      } else if (choix == 5) {
+        await IHMArticle.infoEditeur(settings);
+      } else if (choix == 6) {
+        await IHMArticle.infoAuteur(settings);
       }
     }
     print("Retour menu précédent.");
@@ -160,6 +170,45 @@ class IHMArticle {
     if (!art.estNull()) {
       IHMprincipale.afficherUneDonnee(art);
       print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("L'article $id n'existe pas");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    IHMprincipale.wait();
+  }
+
+  // action pour afficher les informations sur l'editeur d'un Article selon ID
+  static Future<void> infoEditeur(ConnectionSettings settings) async {
+    print("De quelle Article voulez vous afficher les informations?");
+    int id = IHMprincipale.saisieID("de l'article");
+    Article art = await DBArticle.selectArticle(settings, id);
+    if (!art.estNull()) {
+      int idEdi = art.getIdEditeur();
+      Editeur edi = await DBEditeur.selectEditeur(settings, idEdi);
+      IHMprincipale.afficherUneDonnee(edi);
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("L'article $id n'existe pas");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    IHMprincipale.wait();
+  }
+
+  // action pour afficher les informations sur l'auteur d'un Article selon ID
+  static Future<void> infoAuteur(ConnectionSettings settings) async {
+    print("De quelle Article voulez vous afficher les informations?");
+    int id = IHMprincipale.saisieID("de l'article");
+    Article art = await DBArticle.selectArticle(settings, id);
+    if (!art.estNull()) {
+      int idAut = art.getIdAuteur();
+      Auteur aut = await DBAuteur.selectAuteur(settings, idAut);
+      IHMprincipale.afficherUneDonnee(aut);
+      print("Fin de l'opération.");
+
       print("--------------------------------------------------");
     } else {
       print("L'article $id n'existe pas");
