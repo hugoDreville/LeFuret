@@ -1,4 +1,5 @@
 import 'package:mysql1/mysql1.dart';
+import 'db_article.dart';
 import 'db_auteur.dart';
 import 'auteur.dart';
 import 'ihm_principale.dart';
@@ -46,9 +47,10 @@ class IHMAuteur {
       print("|  2- Afficher toute la table            |");
       print("|  3- Afficher tout les articles         |");
       print("|  4- Afficher le nombre d'auteur(s)     |");
+      print("|  5- Afficher le nombre d'article(s)    |");
       print("|  0- Quitter                            |");
       print("+----------------------------------------+");
-      choix = IHMprincipale.choixMenu(4);
+      choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
 
       if (choix == 1) {
@@ -59,6 +61,8 @@ class IHMAuteur {
         await IHMAuteur.listeArticle(settings);
       } else if (choix == 4) {
         await IHMAuteur.nombreAut(settings);
+      } else if (choix == 5) {
+        await IHMAuteur.nombreArt(settings);
       }
     }
     print("Retour menu précédent.");
@@ -160,6 +164,23 @@ class IHMAuteur {
     if (nombreAut != 0) {
       print("+----------------------+");
       print("|     " + nombreAut.toString() + " auteur(s)      |");
+      print("+----------------------+");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("la table est vide");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    IHMprincipale.wait();
+  }
+
+  static Future<void> nombreArt(ConnectionSettings settings) async {
+    int id = IHMprincipale.saisieID("de l'auteur");
+    int nombreArt = await DBAuteur.nombreArt(settings, id);
+    if (nombreArt != 0) {
+      print("+----------------------+");
+      print("|     " + nombreArt.toString() + " editeur(s)     |");
       print("+----------------------+");
       print("Fin de l'opération.");
       print("--------------------------------------------------");

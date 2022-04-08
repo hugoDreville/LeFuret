@@ -46,9 +46,10 @@ class IHMEditeur {
       print("|  2- Afficher toute la table            |");
       print("|  3- Afficher tout les articles         |");
       print("|  4- Afficher le nombre d'editeur(s)    |");
+      print("|  5- Afficher le nombre d'article(s)    |");
       print("|  0- Quitter                            |");
       print("+----------------------------------------+");
-      choix = IHMprincipale.choixMenu(4);
+      choix = IHMprincipale.choixMenu(5);
       print("--------------------------------------------------");
 
       if (choix == 1) {
@@ -59,6 +60,8 @@ class IHMEditeur {
         await IHMEditeur.listeArticle(settings);
       } else if (choix == 4) {
         await IHMEditeur.nombreEdi(settings);
+      } else if (choix == 5) {
+        await IHMEditeur.nombreArt(settings);
       }
     }
     print("Retour menu précédent.");
@@ -160,6 +163,23 @@ class IHMEditeur {
     if (nombreEdi != 0) {
       print("+----------------------+");
       print("|     " + nombreEdi.toString() + " editeur(s)     |");
+      print("+----------------------+");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("la table est vide");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    IHMprincipale.wait();
+  }
+
+  static Future<void> nombreArt(ConnectionSettings settings) async {
+    int id = IHMprincipale.saisieID("de l'editeur");
+    int nombreArt = await DBEditeur.nombreArt(settings, id);
+    if (nombreArt != 0) {
+      print("+----------------------+");
+      print("|     " + nombreArt.toString() + " editeur(s)     |");
       print("+----------------------+");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
