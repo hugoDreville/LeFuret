@@ -1,2 +1,0 @@
-# LeFuret
-Voici le projet
