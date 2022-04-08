@@ -1,10 +1,11 @@
+import 'package:mysql1/mysql1.dart';
 import 'db_auteur.dart';
 import 'auteur.dart';
 import 'ihm_principale.dart';
 import 'article.dart';
 
 class IHMAuteur {
-  static Future<void> menu() async {
+  static Future<void> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("+--------------------------------------------------+");
@@ -20,15 +21,15 @@ class IHMAuteur {
       print("--------------------------------------------------");
 
       if (choix == 1) {
-        await IHMAuteur.menuSelectAuteur();
+        await IHMAuteur.menuSelectAuteur(settings);
       } else if (choix == 2) {
-        await IHMAuteur.insertAuteur();
+        await IHMAuteur.insertAuteur(settings);
       } else if (choix == 3) {
-        await IHMAuteur.updateAuteur();
+        await IHMAuteur.updateAuteur(settings);
       } else if (choix == 4) {
-        await IHMAuteur.deleteAuteur();
+        await IHMAuteur.deleteAuteur(settings);
       } else if (choix == 5) {
-        await IHMAuteur.deleteAllAuteurs();
+        await IHMAuteur.deleteAllAuteurs(settings);
       }
     }
     print("Retour menu précédent.");
@@ -36,7 +37,7 @@ class IHMAuteur {
     await Future.delayed(Duration(seconds: 1));
   }
 
-  static Future<void> menuSelectAuteur() async {
+  static Future<void> menuSelectAuteur(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("+----------------------------------------+");
@@ -50,11 +51,11 @@ class IHMAuteur {
       print("--------------------------------------------------");
 
       if (choix == 1) {
-        await IHMAuteur.selectAuteur();
+        await IHMAuteur.selectAuteur(settings);
       } else if (choix == 2) {
-        await IHMAuteur.selectAllAuteur();
+        await IHMAuteur.selectAllAuteur(settings);
       } else if (choix == 3) {
-        await IHMAuteur.listeArticle();
+        await IHMAuteur.listeArticle(settings);
       }
     }
     print("Retour menu précédent.");
@@ -63,11 +64,11 @@ class IHMAuteur {
   }
 
   // action pour ajouter un Auteur
-  static Future<void> insertAuteur() async {
+  static Future<void> insertAuteur(ConnectionSettings settings) async {
     String nom = IHMprincipale.saisieString("le nom");
     String prenom = IHMprincipale.saisieString("le prenom");
     if (IHMprincipale.confirmation()) {
-      await DBAuteur.insertAuteur(nom, prenom);
+      await DBAuteur.insertAuteur(settings, nom, prenom);
       print("Auteur  inséré dans la table.");
       print("--------------------------------------------------");
     } else {
@@ -80,34 +81,34 @@ class IHMAuteur {
   }
 
   // action pour mettre a jour un Auteur selon ID
-  static Future<void> updateAuteur() async {
+  static Future<void> updateAuteur(ConnectionSettings settings) async {
     print("Quelle Auteur voulez vous mettre à jour ?");
     int id = IHMprincipale.saisieID("de l'auteur");
-    if (await DBAuteur.exist(id)) {
+    if (await DBAuteur.exist(settings, id)) {
       String nom = IHMprincipale.saisieString("le nom");
       String prenom = IHMprincipale.saisieString("le prenom");
       if (IHMprincipale.confirmation()) {
-        await DBAuteur.updateAuteur(id, nom, prenom);
+        await DBAuteur.updateAuteur(settings, id, nom, prenom);
         print("Auteur $id mis à jour.");
         print("--------------------------------------------------");
       } else {
         print("Annulation de l'opération.");
         print("--------------------------------------------------");
       }
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     } else {
       print("L'auteur $id n'existe pas.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     }
   }
 
   // action pour afficher un Auteur selon ID
-  static Future<void> selectAuteur() async {
+  static Future<void> selectAuteur(ConnectionSettings settings) async {
     print("Quelle Auteur voulez vous afficher ?");
     int id = IHMprincipale.saisieID("de l'auteur");
-    Auteur aut = await DBAuteur.selectAuteur(id);
+    Auteur aut = await DBAuteur.selectAuteur(settings, id);
     if (!aut.estNull()) {
       IHMprincipale.afficherUneDonnee(aut);
       print("Fin de l'opération.");
@@ -117,12 +118,12 @@ class IHMAuteur {
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     }
-    await Future.delayed(Duration(seconds: 1));
+    IHMprincipale.wait();
   }
 
   // action pour afficher les Auteur
-  static Future<void> selectAllAuteur() async {
-    List<Auteur> listeAuteur = await DBAuteur.selectAllAuteurs();
+  static Future<void> selectAllAuteur(ConnectionSettings settings) async {
+    List<Auteur> listeAuteur = await DBAuteur.selectAllAuteurs(settings);
     if (listeAuteur.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeAuteur);
       print("Fin de l'opération.");
@@ -132,12 +133,13 @@ class IHMAuteur {
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     }
-    await Future.delayed(Duration(seconds: 1));
+    IHMprincipale.wait();
   }
 
-  static Future<void> listeArticle() async {
+  static Future<void> listeArticle(ConnectionSettings settings) async {
     int id = IHMprincipale.saisieID("de l'editeur");
-    List<Article> listeArticle = await DBAuteur.listeArticleEditeur(id);
+    List<Article> listeArticle =
+        await DBAuteur.listeArticleEditeur(settings, id);
     if (listeArticle.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeArticle);
       print("Fin de l'opération.");
@@ -147,38 +149,38 @@ class IHMAuteur {
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     }
-    await Future.delayed(Duration(seconds: 1));
+    IHMprincipale.wait();
   }
 
 // action pour supprimer un Auteur selon ID
-  static Future<void> deleteAuteur() async {
+  static Future<void> deleteAuteur(ConnectionSettings settings) async {
     print("Quelle Auteur voulez vous supprimer ?");
     int id = IHMprincipale.saisieID("de l'auteur");
     if (IHMprincipale.confirmation()) {
-      DBAuteur.deleteAuteur(id);
+      DBAuteur.deleteAuteur(settings, id);
       print("Auteur $id supprimé.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     } else {
       print("Annulation de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     }
   }
 
   // action pour supprimer les Editeurs
-  static Future<void> deleteAllAuteurs() async {
+  static Future<void> deleteAllAuteurs(ConnectionSettings settings) async {
     if (IHMprincipale.confirmation()) {
-      DBAuteur.deleteAllAuteur();
+      DBAuteur.deleteAllAuteur(settings);
       print("Tables supprimées.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     } else {
       print("Annulation de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     }
   }
 }

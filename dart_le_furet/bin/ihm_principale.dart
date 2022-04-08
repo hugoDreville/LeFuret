@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'package:mysql1/mysql1.dart';
 import 'dart:io';
 import 'data.dart';
 import 'db_config.dart';
@@ -124,7 +124,7 @@ class IHMprincipale {
     bool saisieValide = false;
     double i = -1;
     while (!saisieValide) {
-      print("> Veuillez saisir le prix :");
+      print("> Veuillez saisir le prix (max = 99,99):");
       try {
         i = double.parse(stdin.readLineSync().toString());
         saisieValide = true;
@@ -154,9 +154,31 @@ class IHMprincipale {
     return i;
   }
 
+  // methode qui met en attente le programme et attend une validation avec entré
+  static void wait() {
+    print("Appuyez sur entrer pour continuer ...");
+    stdin.readLineSync();
+  }
+
+  // methode des menus et actions
+  // menu setting
+  static ConnectionSettings setting() {
+    String bdd = IHMprincipale.saisieString("le nom de la BDD");
+    String user = IHMprincipale.saisieString("l'utilisateur");
+    String mdp = IHMprincipale.saisieMDP();
+
+    return ConnectionSettings(
+      host: 'localhost',
+      port: 3306,
+      user: user, // DartUser
+      password: mdp, // dartmdp
+      db: bdd, // DartDB
+    );
+  }
+
   // methode des menus et actions
   // menu d'accueil
-  static Future<int> menu() async {
+  static Future<int> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("+-----------------------------------+");
@@ -170,20 +192,20 @@ class IHMprincipale {
       choix = IHMprincipale.choixMenu(4);
       print("--------------------------------------------------");
       if (choix == 1) {
-        await IHMprincipale.menuBDD();
+        await IHMprincipale.menuBDD(settings);
       } else if (choix == 2) {
-        await IHMArticle.menu();
+        await IHMArticle.menu(settings);
       } else if (choix == 3) {
-        await IHMEditeur.menu();
+        await IHMEditeur.menu(settings);
       } else if (choix == 4) {
-        await IHMAuteur.menu();
+        await IHMAuteur.menu(settings);
       }
     }
     return 0;
   }
 
   // menu pour la gestion basic de la BDD
-  static Future<void> menuBDD() async {
+  static Future<void> menuBDD(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("+----------------------------------------------+");
@@ -199,15 +221,15 @@ class IHMprincipale {
       print("--------------------------------------------------");
 
       if (choix == 1) {
-        await IHMprincipale.createTable();
+        await IHMprincipale.createTable(settings);
       } else if (choix == 2) {
-        await IHMprincipale.checkTable();
+        await IHMprincipale.checkTable(settings);
       } else if (choix == 3) {
-        await IHMprincipale.selectTable();
+        await IHMprincipale.selectTable(settings);
       } else if (choix == 4) {
-        await IHMprincipale.deleteTable();
+        await IHMprincipale.deleteTable(settings);
       } else if (choix == 5) {
-        await IHMprincipale.deleteAllTables();
+        await IHMprincipale.deleteAllTables(settings);
       }
     }
     print("Retour menu précédent.");
@@ -216,18 +238,18 @@ class IHMprincipale {
   }
 
   // action pour creer les tables
-  static Future<void> createTable() async {
+  static Future<void> createTable(ConnectionSettings settings) async {
     print("Création des tables manquantes dans la BDD ...");
-    await DBConfig.createTables();
+    await DBConfig.createTables(settings);
     print("Fin de l'opération.");
     print("--------------------------------------------------");
     await Future.delayed(Duration(seconds: 1));
   }
 
   // action pour vérifier les tables
-  static Future<void> checkTable() async {
+  static Future<void> checkTable(ConnectionSettings settings) async {
     print("Verification des tables dans la BDD ...");
-    if (await DBConfig.checkTables()) {
+    if (await DBConfig.checkTables(settings)) {
       print("Toutes les tables sont présentes dans la BDD.");
     } else {
       print("Il manque des tables dans la BDD.");
@@ -238,8 +260,8 @@ class IHMprincipale {
   }
 
   // action pour afficher les tables
-  static Future<void> selectTable() async {
-    List<String> listTable = await DBConfig.selectTables();
+  static Future<void> selectTable(ConnectionSettings settings) async {
+    List<String> listTable = await DBConfig.selectTables(settings);
     print("Liste des tables :");
     for (var table in listTable) {
       print("- $table");
@@ -250,11 +272,11 @@ class IHMprincipale {
   }
 
 // action pour supprimer une table
-  static Future<void> deleteTable() async {
+  static Future<void> deleteTable(ConnectionSettings settings) async {
     print("Quelle table voulez vous supprimer ?");
     String table = IHMprincipale.saisieString("la table");
     if (IHMprincipale.confirmation()) {
-      DBConfig.dropTable(table);
+      DBConfig.dropTable(settings, table);
       print("Table supprimée.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
@@ -267,9 +289,9 @@ class IHMprincipale {
   }
 
 // action pour supprimer les tables
-  static Future<void> deleteAllTables() async {
+  static Future<void> deleteAllTables(ConnectionSettings settings) async {
     if (IHMprincipale.confirmation()) {
-      DBConfig.dropAllTable();
+      DBConfig.dropAllTable(settings);
       print("Tables supprimées.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");

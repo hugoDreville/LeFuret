@@ -7,11 +7,11 @@ import 'db_config.dart';
 import 'editeur.dart';
 
 class DBEditeur {
-  static Future<Editeur> selectEditeur(int id) async {
+  static Future<Editeur> selectEditeur(
+      ConnectionSettings settings, int id) async {
     Editeur edi = Editeur.vide();
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "SELECT * FROM Editeur WHERE id=" +
             id.toString() +
@@ -32,11 +32,11 @@ class DBEditeur {
     return edi;
   }
 
-  static Future<List<Editeur>> selectAllEditeurs() async {
+  static Future<List<Editeur>> selectAllEditeurs(
+      ConnectionSettings settings) async {
     List<Editeur> listeEdi = [];
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "SELECT * FROM Editeur;";
         Results reponse = await conn.query(requete);
@@ -55,11 +55,11 @@ class DBEditeur {
     return listeEdi;
   }
 
-  static Future<List<Article>> listeArticleEditeur(int id) async {
+  static Future<List<Article>> listeArticleEditeur(
+      ConnectionSettings settings, int id) async {
     List<Article> listeArt = [];
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete =
             "SELECT * FROM Article WHERE idEditeur='" + id.toString() + "';";
@@ -86,10 +86,10 @@ class DBEditeur {
     return listeArt;
   }
 
-  static Future<void> insertEditeur(String nom, String adresse) async {
+  static Future<void> insertEditeur(
+      ConnectionSettings settings, String nom, String adresse) async {
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "INSERT INTO Editeur (nom, adresse) VALUES('" +
             nom +
@@ -107,10 +107,10 @@ class DBEditeur {
   }
 
   //update
-  static Future<void> updateEditeur(int id, String nom, String adressse) async {
+  static Future<void> updateEditeur(
+      ConnectionSettings settings, int id, String nom, String adressse) async {
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "UPDATE Editeur SET nom = '" +
             nom +
@@ -130,10 +130,9 @@ class DBEditeur {
   }
 
   //delete
-  static Future<void> deleteEditeur(int id) async {
+  static Future<void> deleteEditeur(ConnectionSettings settings, int id) async {
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "DELETE FROM Editeur WHERE id='" + id.toString() + "'";
         await conn.query(requete);
@@ -147,10 +146,9 @@ class DBEditeur {
   }
 
   //delete all
-  static Future<void> deleteAllEditeur() async {
+  static Future<void> deleteAllEditeur(ConnectionSettings settings) async {
     try {
-      MySqlConnection conn =
-          await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "TRUNCATE TABLE Editeur;";
         await conn.query(requete);
@@ -164,17 +162,17 @@ class DBEditeur {
   }
 
   // verifie l'existance d'un editeur selon son ID
-  static Future<bool> exist(int id) async {
+  static Future<bool> exist(ConnectionSettings settings, int id) async {
     bool exist = false;
-    if (!(await DBEditeur.selectEditeur(id)).estNull()) {
+    if (!(await DBEditeur.selectEditeur(settings, id)).estNull()) {
       exist = true;
     }
     return exist;
   }
 
   // getEditeur
-  static Future<Editeur> getEditeur(int id) async {
-    dynamic r = await selectEditeur(id);
+  static Future<Editeur> getEditeur(ConnectionSettings settings, int id) async {
+    dynamic r = await selectEditeur(settings, id);
     ResultRow rr = r.first;
     return Editeur(rr['id'], rr['nom'], rr['adresse']);
   }

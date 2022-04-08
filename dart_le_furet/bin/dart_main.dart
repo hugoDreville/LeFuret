@@ -1,10 +1,9 @@
-import 'db_config.dart';
-import 'ihm_info_db.dart';
+import 'package:mysql1/mysql1.dart';
 import 'ihm_principale.dart';
 
 void main(List<String> arguments) async {
   IHMprincipale.titre();
-  IHMDB.initBD();
-  await IHMprincipale.menu();
+  ConnectionSettings settings = IHMprincipale.setting();
+  await IHMprincipale.menu(settings);
   IHMprincipale.quitter();
 }
