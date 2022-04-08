@@ -6,6 +6,7 @@ import 'ihm_principale.dart';
 import 'article.dart';
 
 class IHMAuteur {
+  //affiche le menu principal de Auteur
   static Future<void> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
@@ -38,6 +39,7 @@ class IHMAuteur {
     await Future.delayed(Duration(seconds: 1));
   }
 
+//Affiche le menu pour les Affichages
   static Future<void> menuSelectAuteur(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
@@ -143,10 +145,11 @@ class IHMAuteur {
     IHMprincipale.wait();
   }
 
+  // action pour afficher les Articles de l'Auteur selon ID
   static Future<void> listeArticle(ConnectionSettings settings) async {
-    int id = IHMprincipale.saisieID("de l'editeur");
+    int id = IHMprincipale.saisieID("de l'auteur");
     List<Article> listeArticle =
-        await DBAuteur.listeArticleEditeur(settings, id);
+        await DBAuteur.listeArticleAuteur(settings, id);
     if (listeArticle.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeArticle);
       print("Fin de l'opération.");
@@ -159,6 +162,7 @@ class IHMAuteur {
     IHMprincipale.wait();
   }
 
+  // action pour afficher le nombre d'auteurs
   static Future<void> nombreAut(ConnectionSettings settings) async {
     int nombreAut = await DBAuteur.nombreAut(settings);
     if (nombreAut != 0) {
@@ -175,12 +179,13 @@ class IHMAuteur {
     IHMprincipale.wait();
   }
 
+// action pour afficher le nombre d'articles d'un auteur selon ID
   static Future<void> nombreArt(ConnectionSettings settings) async {
     int id = IHMprincipale.saisieID("de l'auteur");
     int nombreArt = await DBAuteur.nombreArt(settings, id);
     if (nombreArt != 0) {
       print("+----------------------+");
-      print("|     " + nombreArt.toString() + " editeur(s)     |");
+      print("|     " + nombreArt.toString() + " article(s)     |");
       print("+----------------------+");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
@@ -209,7 +214,7 @@ class IHMAuteur {
     }
   }
 
-  // action pour supprimer les Editeurs
+  // action pour supprimer les Auteurs
   static Future<void> deleteAllAuteurs(ConnectionSettings settings) async {
     if (IHMprincipale.confirmation()) {
       DBAuteur.deleteAllAuteur(settings);

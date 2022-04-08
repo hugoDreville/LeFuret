@@ -4,6 +4,7 @@ import 'db_article.dart';
 import 'ihm_principale.dart';
 
 class IHMArticle {
+  //affiche le menu principal de Article
   static Future<void> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
@@ -45,6 +46,7 @@ class IHMArticle {
     await Future.delayed(Duration(seconds: 1));
   }
 
+//Affiche le menu pour les Affichages
   static Future<void> menuSelectArticle(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
@@ -127,6 +129,7 @@ class IHMArticle {
     }
   }
 
+  // action pour mettre a jour le stock d'un Article selon ID
   static Future<void> modifierArticle(ConnectionSettings settings) async {
     print("Dans quelle Article voulez vous modifier le stock ?");
     int id = IHMprincipale.saisieID("de l'article a modifié");
@@ -181,6 +184,7 @@ class IHMArticle {
     IHMprincipale.wait();
   }
 
+  // action pour afficher les articles classé par prix(croissant)
   static Future<void> selectAllArticlePrix(ConnectionSettings settings) async {
     List<Article> listeArticle =
         await DBArticle.selectAllArticlesPrix(settings);
@@ -196,6 +200,7 @@ class IHMArticle {
     IHMprincipale.wait();
   }
 
+  // action pour afficher les articles classé par quantité(croissant)
   static Future<void> selectAllArticleQuantite(
       ConnectionSettings settings) async {
     List<Article> listeArticle =
@@ -229,6 +234,7 @@ class IHMArticle {
     }
   }
 
+// action pour supprimer les Articles d'un Editeur selon son ID
   static Future<void> deleteArticleEditeur(ConnectionSettings settings) async {
     print("De quel editeur voulez vous supprimer ces article(s) ?");
     int id = IHMprincipale.saisieID("de l'editeur");
@@ -245,6 +251,7 @@ class IHMArticle {
     }
   }
 
+// action pour supprimer les Articles d'un Auteur selon son ID
   static Future<void> deleteArticleAuteur(ConnectionSettings settings) async {
     print("De quel auteur voulez vous supprimer ces article(s) ?");
     int id = IHMprincipale.saisieID("de l'auteur");

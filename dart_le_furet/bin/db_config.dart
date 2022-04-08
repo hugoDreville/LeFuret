@@ -151,6 +151,7 @@ class DBConfig {
     }
   }
 
+//Permet d'effectuer une requète dans la BDD
   static Future<dynamic> executerRequete(
       ConnectionSettings settings, String requete) async {
     Results? reponse;

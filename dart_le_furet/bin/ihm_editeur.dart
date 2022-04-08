@@ -5,6 +5,7 @@ import 'editeur.dart';
 import 'ihm_principale.dart';
 
 class IHMEditeur {
+  //affiche le menu principal de Editeur
   static Future<void> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
@@ -37,6 +38,7 @@ class IHMEditeur {
     await Future.delayed(Duration(seconds: 1));
   }
 
+//Affiche le menu pour les Affichages
   static Future<void> menuSelectEditeur(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
@@ -142,6 +144,7 @@ class IHMEditeur {
     IHMprincipale.wait();
   }
 
+  // action pour afficher les Articles de l'Editeur selon ID
   static Future<void> listeArticle(ConnectionSettings settings) async {
     int id = IHMprincipale.saisieID("de l'editeur");
     List<Article> listeArticle =
@@ -158,6 +161,7 @@ class IHMEditeur {
     IHMprincipale.wait();
   }
 
+  // action pour afficher le nombre d'editeurs
   static Future<void> nombreEdi(ConnectionSettings settings) async {
     int nombreEdi = await DBEditeur.nombreEdi(settings);
     if (nombreEdi != 0) {
@@ -174,6 +178,7 @@ class IHMEditeur {
     IHMprincipale.wait();
   }
 
+// action pour afficher le nombre d'articles d'un editeur selon ID
   static Future<void> nombreArt(ConnectionSettings settings) async {
     int id = IHMprincipale.saisieID("de l'editeur");
     int nombreArt = await DBEditeur.nombreArt(settings, id);

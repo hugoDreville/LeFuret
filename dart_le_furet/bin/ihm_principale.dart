@@ -73,6 +73,7 @@ class IHMprincipale {
     return confirme;
   }
 
+//permet de saisir un string
   static String saisieString(String sujet) {
     bool saisieValide = false;
     String s = "";
@@ -88,6 +89,7 @@ class IHMprincipale {
     return s;
   }
 
+//permet de saisir un int
   static int saisieInt(String sujet) {
     bool saisieValide = false;
     int i = -1;
@@ -103,6 +105,7 @@ class IHMprincipale {
     return i;
   }
 
+//permet de saisir un mot de passe
   static String saisieMDP() {
     bool saisieValide = false;
     String s = "";
@@ -120,6 +123,7 @@ class IHMprincipale {
     return s;
   }
 
+//permet de saisir un double
   static double saisieDouble() {
     bool saisieValide = false;
     double i = -1;
@@ -135,6 +139,7 @@ class IHMprincipale {
     return i;
   }
 
+//permet de saisir un id
   static int saisieID(String sujet) {
     bool saisieValide = false;
     int i = -1;

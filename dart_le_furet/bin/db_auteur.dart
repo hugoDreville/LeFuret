@@ -7,6 +7,7 @@ import 'auteur.dart';
 import 'article.dart';
 
 class DBAuteur {
+  //creer l'auteur avec l'id qui nous ai donné et le retourne
   static Future<Auteur> selectAuteur(
       ConnectionSettings settings, int id) async {
     Auteur aut = Auteur.vide();
@@ -32,6 +33,7 @@ class DBAuteur {
     return aut;
   }
 
+//creer une liste avec tout les auteurs et la retourne
   static Future<List<Auteur>> selectAllAuteurs(
       ConnectionSettings settings) async {
     List<Auteur> listeAut = [];
@@ -55,12 +57,13 @@ class DBAuteur {
     return listeAut;
   }
 
+//retourne le nombre d'auteur
   static Future<int> nombreAut(ConnectionSettings settings) async {
     int nbr = 0;
     try {
       MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
-        String requete = "SELECT count(DISTINCT idAuteur) FROM Article;";
+        String requete = "SELECT count(DISTINCT id) FROM Auteur;";
         Results reponse = await conn.query(requete);
         for (var fields in reponse) {
           nbr = fields['count(DISTINCT idAuteur)'];
@@ -75,6 +78,7 @@ class DBAuteur {
     return nbr;
   }
 
+//retourne le nombre d'article de l'auteur donné
   static Future<int> nombreArt(ConnectionSettings settings, id) async {
     int nbr = 0;
     try {
@@ -97,6 +101,7 @@ class DBAuteur {
     return nbr;
   }
 
+//Permet d'inserer un auteur dans la table Auteur
   static Future<void> insertAuteur(
       ConnectionSettings settings, String nom, String prenom) async {
     try {
@@ -117,7 +122,7 @@ class DBAuteur {
     }
   }
 
-  //update
+//permet de mettre a jour un Auteur avec las valeurs placées en paramétres
   static Future<void> updateAuteur(
       ConnectionSettings settings, int id, String nom, String prenom) async {
     try {
@@ -140,14 +145,15 @@ class DBAuteur {
     }
   }
 
-  static Future<List<Article>> listeArticleEditeur(
+//retourne la liste des articles d'un Auteur
+  static Future<List<Article>> listeArticleAuteur(
       ConnectionSettings settings, int id) async {
     List<Article> listeArt = [];
     try {
       MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete =
-            "SELECT * FROM Article WHERE idArticle='" + id.toString() + "';";
+            "SELECT * FROM Article WHERE idAuteur='" + id.toString() + "';";
         Results reponse = await conn.query(requete);
         for (var fields in reponse) {
           Article art = Article(
@@ -171,7 +177,7 @@ class DBAuteur {
     return listeArt;
   }
 
-  //delete
+  //supprime l'auteur grace a son id placé en paramétre
   static Future<void> deleteAuteur(ConnectionSettings settings, int id) async {
     try {
       MySqlConnection conn = await MySqlConnection.connect(settings);
@@ -187,7 +193,7 @@ class DBAuteur {
     }
   }
 
-  //delete all
+  //supprime tout les auteurs de la table Auteur
   static Future<void> deleteAllAuteur(ConnectionSettings settings) async {
     try {
       MySqlConnection conn = await MySqlConnection.connect(settings);
@@ -203,19 +209,12 @@ class DBAuteur {
     }
   }
 
-  // verifie l'existance d'un editeur selon son ID
+  // verifie l'existance d'un Auteur selon son ID
   static Future<bool> exist(ConnectionSettings settings, int id) async {
     bool exist = false;
     if (!(await DBAuteur.selectAuteur(settings, id)).estNull()) {
       exist = true;
     }
     return exist;
-  }
-
-  // getEditeur
-  static Future<Auteur> getAuteur(ConnectionSettings settings, int id) async {
-    dynamic r = await selectAuteur(settings, id);
-    ResultRow rr = r.first;
-    return Auteur(rr['id'], rr['nom'], rr['prenom']);
   }
 }

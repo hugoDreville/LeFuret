@@ -4,6 +4,7 @@ import 'db_config.dart';
 import 'article.dart';
 
 class DBArticle {
+  //creer l'article de l'id donné
   static Future<Article> selectArticle(
       ConnectionSettings settings, int id) async {
     Article art = Article.vide();
@@ -35,6 +36,7 @@ class DBArticle {
     return art;
   }
 
+//creer une liste de tout les articles
   static Future<List<Article>> selectAllArticles(
       ConnectionSettings settings) async {
     List<Article> listeArt = [];
@@ -65,6 +67,7 @@ class DBArticle {
     return listeArt;
   }
 
+//creer une liste de tout les articles rangés par ordre croissant par raport aux prix
   static Future<List<Article>> selectAllArticlesPrix(
       ConnectionSettings settings) async {
     List<Article> listeArt = [];
@@ -95,6 +98,7 @@ class DBArticle {
     return listeArt;
   }
 
+//creer une liste de tout les articles rangés par ordre croissant par raport aux quantités
   static Future<List<Article>> selectAllArticlesQuantite(
       ConnectionSettings settings) async {
     List<Article> listeArt = [];
@@ -125,6 +129,7 @@ class DBArticle {
     return listeArt;
   }
 
+//permet d'inserer un article dans la table Article grace au valeurs placées en paramétres
   static Future<void> insertArticle(
       ConnectionSettings settings,
       String titre,
@@ -163,8 +168,7 @@ class DBArticle {
     }
   }
 
-//update
-
+//permet de mettre a jour un article grace au valeurs placées en paramétres
   static Future<void> updateArticle(
       ConnectionSettings settings,
       int id,
@@ -205,6 +209,7 @@ class DBArticle {
     }
   }
 
+//permet de mettre a jour la quantité d'un article grace au valeurs placées en paramétres
   static Future<void> modifierArticle(
       ConnectionSettings settings, int id, int quantite) async {
     try {
@@ -225,8 +230,7 @@ class DBArticle {
     }
   }
 
-  //delete
-
+//permet de supprimer un article avec l'id qui nous est donné
   static Future<void> deleteArticle(ConnectionSettings settings, int id) async {
     try {
       MySqlConnection conn = await MySqlConnection.connect(settings);
@@ -242,6 +246,7 @@ class DBArticle {
     }
   }
 
+//supprime les Articles d'un editeur(son id en paramétres)
   static Future<void> deleteArticleEditeur(
       ConnectionSettings settings, int id) async {
     try {
@@ -259,6 +264,7 @@ class DBArticle {
     }
   }
 
+//supprime les Articles d'un auteur(son id en paramétres)
   static Future<void> deleteArticleAuteur(
       ConnectionSettings settings, int id) async {
     try {
@@ -276,8 +282,7 @@ class DBArticle {
     }
   }
 
-  //delete all
-
+//supprime tout les articles de la table Article
   static Future<void> deleteAllArticle(ConnectionSettings settings) async {
     try {
       MySqlConnection conn = await MySqlConnection.connect(settings);
@@ -300,14 +305,5 @@ class DBArticle {
       exist = true;
     }
     return exist;
-  }
-
-  // getEtudiant
-  static Future<Article> getEtudiant(
-      ConnectionSettings settings, int id) async {
-    dynamic r = await selectArticle(settings, id);
-    ResultRow rr = r.first;
-    return Article(rr['id'], rr['titre'], rr['type'], rr['quantite'],
-        rr['prix'], rr['anneeParution'], rr['idEditeur'], rr['idAuteur']);
   }
 }
