@@ -12,11 +12,13 @@ class IHMArticle {
       print("|  2- Inserer une données dans la table            |");
       print("|  3- Modifier le stock                            |");
       print("|  4- Modifier une données dans la table           |");
-      print("|  5- Supprimer une données dans la tables         |");
-      print("|  6- Supprimer toutes les données dans la tables  |");
+      print("|  5- Supprimer tout les articles d'un editeur     |");
+      print("|  6- Supprimer tout les articles d'un auteur      |");
+      print("|  7- Supprimer une données dans la tables         |");
+      print("|  8- Supprimer toutes les données dans la tables  |");
       print("|  0- Quitter                                      |");
       print("+--------------------------------------------------+");
-      choix = IHMprincipale.choixMenu(6);
+      choix = IHMprincipale.choixMenu(8);
       print("--------------------------------------------------");
 
       if (choix == 1) {
@@ -28,8 +30,12 @@ class IHMArticle {
       } else if (choix == 4) {
         await IHMArticle.updateArticle();
       } else if (choix == 5) {
-        await IHMArticle.deleteArticle();
+        await IHMArticle.deleteArticleEditeur();
       } else if (choix == 6) {
+        await IHMArticle.deleteArticleAuteur();
+      } else if (choix == 7) {
+        await IHMArticle.deleteArticle();
+      } else if (choix == 8) {
         await IHMArticle.deleteAllArticles();
       }
     }
@@ -175,6 +181,38 @@ class IHMArticle {
     if (IHMprincipale.confirmation()) {
       DBArticle.deleteArticle(id);
       print("Article $id supprimé.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    } else {
+      print("Annulation de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
+  static Future<void> deleteArticleEditeur() async {
+    print("De quel editeur voulez vous supprimer ces article(s) ?");
+    int id = IHMprincipale.saisieID("de l'editeur");
+    if (IHMprincipale.confirmation()) {
+      DBArticle.deleteArticleEditeur(id);
+      print("Les article de l'editeur $id ont étaient supprimé.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    } else {
+      print("Annulation de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
+  static Future<void> deleteArticleAuteur() async {
+    print("De quel auteur voulez vous supprimer ces article(s) ?");
+    int id = IHMprincipale.saisieID("de l'auteur");
+    if (IHMprincipale.confirmation()) {
+      DBArticle.deleteArticleAuteur(id);
+      print("Les article de l'auteur $id ont étaient supprimé.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
       await Future.delayed(Duration(seconds: 1));

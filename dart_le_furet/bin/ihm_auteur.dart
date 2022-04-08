@@ -1,6 +1,7 @@
 import 'db_auteur.dart';
 import 'auteur.dart';
 import 'ihm_principale.dart';
+import 'article.dart';
 
 class IHMAuteur {
   static Future<void> menu() async {
@@ -42,15 +43,18 @@ class IHMAuteur {
       print("|          Menu - Select Auteur          |");
       print("|  1- Afficher selon ID                  |");
       print("|  2- Afficher toute la table            |");
+      print("|  3- Afficher tout les articles         |");
       print("|  0- Quitter                            |");
       print("+----------------------------------------+");
-      choix = IHMprincipale.choixMenu(2);
+      choix = IHMprincipale.choixMenu(3);
       print("--------------------------------------------------");
 
       if (choix == 1) {
         await IHMAuteur.selectAuteur();
       } else if (choix == 2) {
         await IHMAuteur.selectAllAuteur();
+      } else if (choix == 3) {
+        await IHMAuteur.listeArticle();
       }
     }
     print("Retour menu précédent.");
@@ -121,6 +125,21 @@ class IHMAuteur {
     List<Auteur> listeAuteur = await DBAuteur.selectAllAuteurs();
     if (listeAuteur.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeAuteur);
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("la table est vide");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  static Future<void> listeArticle() async {
+    int id = IHMprincipale.saisieID("de l'editeur");
+    List<Article> listeArticle = await DBAuteur.listeArticleEditeur(id);
+    if (listeArticle.isNotEmpty) {
+      IHMprincipale.afficherDesDonnees(listeArticle);
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     } else {

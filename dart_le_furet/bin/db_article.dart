@@ -177,6 +177,40 @@ class DBArticle {
     }
   }
 
+  static Future<void> deleteArticleEditeur(int id) async {
+    try {
+      MySqlConnection conn =
+          await MySqlConnection.connect(DBConfig.getSettings());
+      try {
+        String requete =
+            "DELETE FROM Article WHERE idEditeur='" + id.toString() + "'";
+        await conn.query(requete);
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static Future<void> deleteArticleAuteur(int id) async {
+    try {
+      MySqlConnection conn =
+          await MySqlConnection.connect(DBConfig.getSettings());
+      try {
+        String requete =
+            "DELETE FROM Article WHERE idAuteur='" + id.toString() + "'";
+        await conn.query(requete);
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   //delete all
 
   static Future<void> deleteAllArticle() async {

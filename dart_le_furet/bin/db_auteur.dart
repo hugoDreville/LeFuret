@@ -4,6 +4,7 @@ import 'package:mysql1/mysql1.dart';
 
 import 'db_config.dart';
 import 'auteur.dart';
+import 'article.dart';
 
 class DBAuteur {
   static Future<Auteur> selectAuteur(int id) async {
@@ -95,6 +96,37 @@ class DBAuteur {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  static Future<List<Article>> listeArticleEditeur(int id) async {
+    List<Article> listeArt = [];
+    try {
+      MySqlConnection conn =
+          await MySqlConnection.connect(DBConfig.getSettings());
+      try {
+        String requete =
+            "SELECT * FROM Article WHERE idArticle='" + id.toString() + "';";
+        Results reponse = await conn.query(requete);
+        for (var fields in reponse) {
+          Article art = Article(
+              fields['id'],
+              fields['titre'],
+              fields['type'],
+              fields['quantite'],
+              fields['prix'],
+              fields['anneeParution'],
+              fields["idEditeur"],
+              fields["idAuteur"]);
+          listeArt.add(art);
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+    return listeArt;
   }
 
   //delete
