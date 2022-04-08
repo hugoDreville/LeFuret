@@ -132,6 +132,7 @@ Mais on peut également tous les supprimer avec:
 5- Supprimer toutes les tables dans la BDD
 ```
 ## Structure
+### Base de Données
 Voici le modele conceptuelle pour lequel nous avons opté pour notre base de données:
 ![image](https://user-images.githubusercontent.com/100281360/162486292-40b25332-029d-4ccb-bc92-6eb46c780104.png)
 Il contient 3 entités :
@@ -140,4 +141,12 @@ Il contient 3 entités :
 * Auteur
 
 il contient également une association entre la table Article et Auteur qui se nomme Réaliser.
+### Programme
+Voici le diagramme de classe que nous avons réaliser pour le programme:
 
+![image](https://user-images.githubusercontent.com/100281360/162493045-540a5638-a167-460a-8a57-6f2975a243f6.png)
+Elle respecte le modele **VMC**(modéle vue controleur)
+on a plusieur type de classes:
+* Les intéractions homme machine (affichage).
+* Les classes en relations avec la base de donnée.
+* Les classes principales (Article, Editeur, Auteur).
