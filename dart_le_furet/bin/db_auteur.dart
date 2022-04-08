@@ -55,6 +55,26 @@ class DBAuteur {
     return listeAut;
   }
 
+  static Future<int> nombreAut(ConnectionSettings settings) async {
+    int nbr = 0;
+    try {
+      MySqlConnection conn = await MySqlConnection.connect(settings);
+      try {
+        String requete = "SELECT count(DISTINCT idAuteur) FROM Article;";
+        Results reponse = await conn.query(requete);
+        for (var fields in reponse) {
+          nbr = fields['count(DISTINCT idAuteur)'];
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+    return nbr;
+  }
+
   static Future<void> insertAuteur(
       ConnectionSettings settings, String nom, String prenom) async {
     try {

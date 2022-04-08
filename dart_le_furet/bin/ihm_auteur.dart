@@ -45,9 +45,10 @@ class IHMAuteur {
       print("|  1- Afficher selon ID                  |");
       print("|  2- Afficher toute la table            |");
       print("|  3- Afficher tout les articles         |");
+      print("|  4- Afficher le nombre d'auteur(s)     |");
       print("|  0- Quitter                            |");
       print("+----------------------------------------+");
-      choix = IHMprincipale.choixMenu(3);
+      choix = IHMprincipale.choixMenu(4);
       print("--------------------------------------------------");
 
       if (choix == 1) {
@@ -56,6 +57,8 @@ class IHMAuteur {
         await IHMAuteur.selectAllAuteur(settings);
       } else if (choix == 3) {
         await IHMAuteur.listeArticle(settings);
+      } else if (choix == 4) {
+        await IHMAuteur.nombreAut(settings);
       }
     }
     print("Retour menu précédent.");
@@ -142,6 +145,22 @@ class IHMAuteur {
         await DBAuteur.listeArticleEditeur(settings, id);
     if (listeArticle.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeArticle);
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("la table est vide");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    IHMprincipale.wait();
+  }
+
+  static Future<void> nombreAut(ConnectionSettings settings) async {
+    int nombreAut = await DBAuteur.nombreAut(settings);
+    if (nombreAut != 0) {
+      print("+----------------------+");
+      print("|     " + nombreAut.toString() + " auteur(s)      |");
+      print("+----------------------+");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     } else {

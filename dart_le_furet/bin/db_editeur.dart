@@ -86,6 +86,26 @@ class DBEditeur {
     return listeArt;
   }
 
+  static Future<int> nombreEdi(ConnectionSettings settings) async {
+    int nbr = 0;
+    try {
+      MySqlConnection conn = await MySqlConnection.connect(settings);
+      try {
+        String requete = "SELECT count(DISTINCT idEditeur) FROM Article;";
+        Results reponse = await conn.query(requete);
+        for (var fields in reponse) {
+          nbr = fields['count(DISTINCT idEditeur)'];
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+    return nbr;
+  }
+
   static Future<void> insertEditeur(
       ConnectionSettings settings, String nom, String adresse) async {
     try {
