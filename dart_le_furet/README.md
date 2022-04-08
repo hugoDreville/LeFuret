@@ -133,4 +133,11 @@ Mais on peut également tous les supprimer avec:
 ```
 ## Structure
 Voici le modele conceptuelle pour lequel nous avons opté pour notre base de données:
-<a><img height="500px" src="MCD.pdf"/></a>
+![image](https://user-images.githubusercontent.com/100281360/162486292-40b25332-029d-4ccb-bc92-6eb46c780104.png)
+Il contient 3 entités :
+* Article
+* Editeur
+* Auteur
+
+il contient également une association entre la table Article et Auteur qui se nomme Réaliser.
+
